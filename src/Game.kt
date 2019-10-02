@@ -4,6 +4,10 @@ fun main() {
     val isBlessed = true
     val isImmortal = false
 
+    // wijziging tov boek: accolades rond characters in format string
+    // (anders groot risico op ongewenste substituties)
+    val statusFormatString = "({HP})({A}) --> {H}"
+
     // Aura
     val auraVisible = isBlessed && healthPoints > 50 || isImmortal
 
@@ -13,6 +17,7 @@ fun main() {
         in 6..10 -> "ORANGE"
         in 11..15 -> "PURPLE"
         in 16..20 -> "GREEN"
+        else -> "RAINBOW"
     }
 
     val healthStatus = when (healthPoints) {
@@ -25,6 +30,11 @@ fun main() {
     }
 
     // Player status
-    println("(Aura: ${if (auraVisible) auraColor else "NONE"}) (Blessed: ${if (isBlessed) "YES" else "NO"})")
-    println("$name $healthStatus")
+    val formattedString = statusFormatString
+        .replace("{HP}", "HP: $healthPoints")
+        .replace("{A}", "Aura: ${if (auraVisible) auraColor else "NONE"}")
+        .replace("{B}", "Blessed: ${if (isBlessed) "YES" else "NO"})")
+        .replace("{H}", "$name $healthStatus")
+
+    println(formattedString)
 }
