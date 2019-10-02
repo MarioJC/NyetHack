@@ -13,6 +13,8 @@ fun main() {
     printPlayerStatus(auraColor, isBlessed, name, healthStatus)
 
     castFireBall()
+
+    printPlayerStatus(name = "Mario", healthStatus = "rocks!", auraColor = "GOLD", isBlessed = true)
 }
 
 private fun printPlayerStatus(
