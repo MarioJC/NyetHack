@@ -1,6 +1,7 @@
 fun main() {
-    var beverage = readLine()?.capitalize()
-//    beverage = null
+    var beverage: String? = null
+//    beverage = "tea"
+    beverage = beverage?.capitalize()
 
     println(beverage)
 }
