@@ -4,6 +4,8 @@ fun main() {
     placeOrder("shandy,Dragon's Breath,5.91")
     println("---")
     placeOrder("elixir,Shirley's Temple,4.12")
+    println("---")
+    println(toDragonSpeak("EVEN CAPITAL LETTERS ARE CONVERTED TO DRAGONSPEAK!"))
 }
 
 private fun placeOrder(menuData: String) {
@@ -24,13 +26,13 @@ private fun placeOrder(menuData: String) {
 }
 
 private fun toDragonSpeak(phrase: String) =
-        phrase.replace(Regex("[aeiou]")) {
+        phrase.replace(Regex("[aAeEiIoOuU]")) {
             when (it.value) {
-                "a" -> "4"
-                "e" -> "3"
-                "i" -> "1"
-                "o" -> "0"
-//                "u" -> "|_|"
+                "a", "A" -> "4"
+                "e", "E" -> "3"
+                "i", "I" -> "1"
+                "o", "O" -> "0"
+//                "u", "U" -> "|_|"
                 else -> it.value
             }
         }
