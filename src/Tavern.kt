@@ -2,16 +2,15 @@ import kotlin.math.roundToInt
 
 const val TAVERN_NAME = "Taernyl's Folly"
 
-var playerGold = 10
-var playerSilver = 10
+var playerGold = 50
+var playerSilver = 50
 var gallonsDragonsBreathInCask = 5.0 // a full cask of Dragon's Breath holds 5 gallons
 
 fun main() {
     for (i in 1..12) {
         println("Purchase #$i:")
         placeOrder("shandy,Dragon's Breath,5.91")
-        gallonsDragonsBreathInCask -= 0.125
-        println("Gallons of Dragon's Breath left: $gallonsDragonsBreathInCask")
+
         println("---")
     }
 }
@@ -25,14 +24,25 @@ private fun placeOrder(menuData: String) {
     val message = "Madrigal buys a $name ($type) for $price."
     println(message)
 
-    performPurchase(price.toDouble())
+    var phrase: String
+    if (canPerformPurchase(playerGold, playerSilver, price.toDouble())) {
+        performPurchase(price.toDouble())
 
-    val phrase = if (name == "Dragon's Breath") {
-        "Madrigal exclaims: ${toDragonSpeak("Ah, delicious $name!")}"
+        phrase = if (name == "Dragon's Breath") {
+            "Madrigal exclaims: ${toDragonSpeak("Ah, delicious $name!")}"
+        } else {
+            "Madrigal says: Thanks for the $name."
+        }
     } else {
-        "Madrigal says: Thanks for the $name."
+        phrase = "Sorry Madrigal, you're short on gold "
     }
+
     println(phrase)
+}
+
+fun canPerformPurchase(numGoldPieces: Int, numSilverPieces: Int, price: Double): Boolean {
+    var total: Double = numGoldPieces + numSilverPieces / 100.0
+    return total >= price
 }
 
 fun performPurchase(price: Double) {
@@ -48,7 +58,11 @@ fun performPurchase(price: Double) {
     val remainingSilver = (remainingBalance % 1 * 100).roundToInt()
     playerGold = remainingGold
     playerSilver = remainingSilver
+
     displayBalance()
+
+    gallonsDragonsBreathInCask -= 0.125
+    println("Gallons of Dragon's Breath left: $gallonsDragonsBreathInCask")
 }
 
 private fun displayBalance() {
