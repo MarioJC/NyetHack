@@ -4,9 +4,16 @@ const val TAVERN_NAME = "Taernyl's Folly"
 
 var playerGold = 10
 var playerSilver = 10
+var gallonsDragonsBreathInCask = 5.0 // a full cask of Dragon's Breath holds 5 gallons
 
 fun main() {
-    placeOrder("shandy,Dragon's Breath,5.91")
+    for (i in 1..12) {
+        println("Purchase #$i:")
+        placeOrder("shandy,Dragon's Breath,5.91")
+        gallonsDragonsBreathInCask -= 0.125
+        println("Gallons of Dragon's Breath left: $gallonsDragonsBreathInCask")
+        println("---")
+    }
 }
 
 private fun placeOrder(menuData: String) {
