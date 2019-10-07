@@ -1,18 +1,15 @@
-import kotlin.math.roundToInt
-
 const val TAVERN_NAME = "Taernyl's Folly"
+const val DRAGON_TO_GOLD_CONVERSION_RATE = 1.43
 
-var playerGold = 50
-var playerSilver = 50
+var playerDragonCoin = 5.0
+
 var gallonsDragonsBreathInCask = 5.0 // a full cask of Dragon's Breath holds 5 gallons
 
 fun main() {
-    for (i in 1..12) {
-        println("Purchase #$i:")
-        placeOrder("shandy,Dragon's Breath,5.91")
-
-        println("---")
-    }
+    placeOrder("shandy,Dragon's Breath,5.91")
+    println("---")
+    placeOrder("shandy,Dragon's Breath,5.91")
+    println("---")
 }
 
 private fun placeOrder(menuData: String) {
@@ -25,7 +22,7 @@ private fun placeOrder(menuData: String) {
     println(message)
 
     var phrase: String
-    if (canPerformPurchase(playerGold, playerSilver, price.toDouble())) {
+    if (canPerformPurchase(playerDragonCoin, price.toDouble())) {
         performPurchase(price.toDouble())
 
         phrase = if (name == "Dragon's Breath") {
@@ -34,30 +31,25 @@ private fun placeOrder(menuData: String) {
             "Madrigal says: Thanks for the $name."
         }
     } else {
-        phrase = "Sorry Madrigal, you're short on gold "
+        phrase = "Sorry Madrigal, you're short on money!"
     }
 
     println(phrase)
 }
 
-fun canPerformPurchase(numGoldPieces: Int, numSilverPieces: Int, price: Double): Boolean {
-    var total: Double = numGoldPieces + numSilverPieces / 100.0
+fun canPerformPurchase(numDragonCoins: Double = 0.0, price: Double): Boolean {
+    var total: Double = numDragonCoins * DRAGON_TO_GOLD_CONVERSION_RATE
     return total >= price
 }
 
 fun performPurchase(price: Double) {
     displayBalance()
-    val totalPurse = playerGold + (playerSilver / 100.0)
-    println("Total purse: ${"%.2f".format(totalPurse)}")
+    val totalPurse = playerDragonCoin * DRAGON_TO_GOLD_CONVERSION_RATE
+    println("Total purse (converted to gold): ${"%.2f".format(totalPurse)}")
     println("Purchasing item for $price")
 
     val remainingBalance = totalPurse - price
-    println("Remaining balance: ${"%.2f".format(remainingBalance)}")
-
-    val remainingGold = remainingBalance.toInt()
-    val remainingSilver = (remainingBalance % 1 * 100).roundToInt()
-    playerGold = remainingGold
-    playerSilver = remainingSilver
+    playerDragonCoin = remainingBalance / DRAGON_TO_GOLD_CONVERSION_RATE
 
     displayBalance()
 
@@ -66,17 +58,17 @@ fun performPurchase(price: Double) {
 }
 
 private fun displayBalance() {
-    println("Player's purse balance: Gold: $playerGold, Silver: $playerSilver")
+    println("Player's purse balance: DragonCoin: ${"%.4f".format(playerDragonCoin)}")
 }
 
 private fun toDragonSpeak(phrase: String) =
-        phrase.replace(Regex("[aeiou]")) {
-            when (it.value) {
-                "a" -> "4"
-                "e" -> "3"
-                "i" -> "1"
-                "o" -> "0"
+    phrase.replace(Regex("[aeiou]")) {
+        when (it.value) {
+            "a" -> "4"
+            "e" -> "3"
+            "i" -> "1"
+            "o" -> "0"
 //                "u" -> "|_|"
-                else -> it.value
-            }
+            else -> it.value
         }
+    }
