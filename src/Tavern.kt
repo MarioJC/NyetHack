@@ -1,3 +1,4 @@
+import java.io.File
 import kotlin.math.roundToInt
 
 const val TAVERN_NAME = "Taernyl's Folly"
@@ -5,6 +6,7 @@ const val TAVERN_NAME = "Taernyl's Folly"
 var playerGold = 10
 var playerSilver = 10
 val patronList = mutableListOf("Eli", "Mordoc", "Sophie")
+val menuList = File("data/tavern-menu-data.txt").readText().split('\n')
 
 fun main() {
     if (patronList.contains("Eli")) {
@@ -22,8 +24,12 @@ fun main() {
    patronList.forEachIndexed { index, patron ->
        println("---")
        println("Good evening, $patron - you're #${index + 1} in line.")
-       placeOrder(patron, "shandy,Dragon's Breath,5.91")
+       placeOrder(patron, menuList.shuffled().first())
    }
+
+    menuList.forEachIndexed { index, data ->
+        println("$index: $data")
+    }
 
 }
 
