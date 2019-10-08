@@ -1,3 +1,4 @@
+import java.awt.SystemColor.menu
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -11,8 +12,7 @@ val uniquePatrons = mutableSetOf<String>()
 val menuList = File("data/tavern-menu-data.txt").readText().split('\n')
 
 fun main() {
-    showMenu()
-
+    showExtendedMenu()
     if (patronList.contains("Eli")) {
         println("The tavern master says: Eli is in the back playing cards.")
     } else {
@@ -25,6 +25,7 @@ fun main() {
         println("The tavern master says: Nay, they departed hours ago.")
     }
 
+    // generate 10 unique patron names (maybe be less due to exhaustion of possibilities)
     (0..9).forEach {
         val first = patronList.shuffled().first()
         val last = lastName.shuffled().first()
@@ -90,6 +91,40 @@ fun showMenu() {
         if (numDots < 3) numDots = 3 // minimum number of dots
 
         println("${name.capitalize()}${".".repeat(numDots)}$price")
+    }
+
+    println()
+}
+
+fun showExtendedMenu() {
+    val welcomeMsg = "*** Welcome to $TAVERN_NAME ***"
+
+    println(welcomeMsg)
+    println()
+
+    // TODO: rewrite nested loops (should be able to collect everything in Map of Maps?
+
+    // collect all beverage types in set
+    var beverageTypes = setOf<String>()
+    for (menuItem in menuList) {
+        val (type, name, price) = menuItem.split(',')
+        beverageTypes += type
+    }
+
+    // traverse menuList to collect all drinks of all beverageTypes
+    for (bt in beverageTypes) {
+        val beverageTypeHeader = "~[$bt]~"
+        val numSpaces = (welcomeMsg.length - beverageTypeHeader.length) / 2
+        println("${" ".repeat(numSpaces)}$beverageTypeHeader")
+        for (menuItem in menuList) {
+            val (type, name, price) = menuItem.split(',')
+            if (type == bt) {
+                var numDots = welcomeMsg.length - price.length - name.length
+                if (numDots < 3) numDots = 3 // minimum number of dots
+
+                println("${name.capitalize()}${".".repeat(numDots)}$price")
+            }
+        }
     }
 
     println()
