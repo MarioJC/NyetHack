@@ -11,6 +11,8 @@ val uniquePatrons = mutableSetOf<String>()
 val menuList = File("data/tavern-menu-data.txt").readText().split('\n')
 
 fun main() {
+    showMenu()
+
     if (patronList.contains("Eli")) {
         println("The tavern master says: Eli is in the back playing cards.")
     } else {
@@ -74,6 +76,23 @@ fun performPurchase(price: Double) {
     playerGold = remainingGold
     playerSilver = remainingSilver
     displayBalance()
+}
+
+fun showMenu() {
+    val welcomeMsg = "*** Welcome to $TAVERN_NAME ***"
+
+    println(welcomeMsg)
+    println()
+
+    (0.until(menuList.size)).forEach { i ->
+        val (_, name, price) = menuList[i].split(',')
+        var numDots = welcomeMsg.length - price.length - name.length
+        if (numDots < 3) numDots = 3 // minimum number of dots
+
+        println("${name.capitalize()}${".".repeat(numDots)}$price")
+    }
+
+    println()
 }
 
 private fun displayBalance() {
