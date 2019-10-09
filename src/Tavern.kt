@@ -30,11 +30,11 @@ fun main() {
     }
 
     uniquePatrons.forEach { name ->
-        patronGold[name] = 6.0
+        patronGold[name] = 10.0
     }
 
     var orderCount = 0
-    while (orderCount <= 9) {
+    while (orderCount <= 9 && uniquePatrons.isNotEmpty()) {
         placeOrder(uniquePatrons.shuffled().first(), menuList.shuffled().first())
         orderCount++
     }
@@ -53,18 +53,31 @@ private fun placeOrder(patronName: String, menuData: String) {
     val tavernMaster = TAVERN_NAME.substring(0 until indexOfApostrophe)
     println("$patronName speaks with $tavernMaster about their order.")
 
+    println("$patronName has ${patronGold[patronName]} gold left.")
+
     val (type, name, price) = menuData.split(',')
     val message = "$patronName buys a $name ($type) for $price."
     println(message)
 
-    performPurchase(price.toDouble(), patronName)
+    if (sufficientFunds(patronName, price)) {
+        performPurchase(price.toDouble(), patronName)
 
-    val phrase = if (name == "Dragon's Breath") {
-        "$patronName exclaims: ${toDragonSpeak("Ah, delicious $name!")}"
-    } else {
-        "$patronName says: Thanks for the $name."
+
+        val phrase = if (name == "Dragon's Breath") {
+            "$patronName exclaims: ${toDragonSpeak("Ah, delicious $name!")}"
+        } else {
+            "$patronName says: Thanks for the $name."
+        }
+        println(phrase)
+    } else { // insufficient funds!
+        uniquePatrons -= patronName
+        patronGold -= patronName
+        println("Tavern bouncer says: sorry you're out of luck $patronName, I'm booting you out!")
     }
-    println(phrase)
+}
+
+fun sufficientFunds(patronName: String, price: String): Boolean {
+    return patronGold.getValue(patronName) >= price.toDouble()
 }
 
 fun performPurchase(price: Double, patronName: String) {
