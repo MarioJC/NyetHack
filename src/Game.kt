@@ -1,20 +1,17 @@
 fun main() {
-    val name = "Madrigal"
     val healthPoints = 89
     val isBlessed = true
     val isImmortal = false
 
+    val player = Player()
+    player.castFireBall()
+
     // Aura
     val auraColor = auraColor(isBlessed, healthPoints, isImmortal)
 
-    val healthStatus = formatHealthStatus(healthPoints, isBlessed)
-
     // Player status
-    printPlayerStatus(auraColor, isBlessed, name, healthStatus)
-
-    castFireBall()
-
-    printPlayerStatus(name = "Mario", healthStatus = "rocks!", auraColor = "GOLD", isBlessed = true)
+    val healthStatus = formatHealthStatus(healthPoints, isBlessed)
+    printPlayerStatus(auraColor, isBlessed, player.name, healthStatus)
 }
 
 private fun printPlayerStatus(
@@ -32,9 +29,6 @@ private fun auraColor(isBlessed: Boolean, healthPoints: Int, isImmortal: Boolean
     val auraColor = if (auraVisible) "GREEN" else "NONE"
     return auraColor
 }
-
-private fun castFireBall(numFireBalls: Int = 2) =
-    println("A glass of Fireball springs into existence. (x$numFireBalls)")
 
 private fun formatHealthStatus(healthPoints: Int, isBlessed: Boolean) =
     when (healthPoints) {
