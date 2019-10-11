@@ -1,5 +1,7 @@
+package com.edmarsoft.nyethack
+
 fun main() {
-    val player = Player()
+    val player = Player("Madrigal")
     player.castFireBall()
 
     printPlayerStatus(player)

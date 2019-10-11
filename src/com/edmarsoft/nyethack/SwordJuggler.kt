@@ -1,3 +1,5 @@
+package com.edmarsoft.nyethack
+
 import java.lang.IllegalStateException
 
 fun main() {
