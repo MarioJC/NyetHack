@@ -13,6 +13,7 @@ class Player (_name: String,
         }
 
     val hometown by lazy { selectHometown() }
+    var currentPosition = Coordinate(0, 0)
 
     private fun selectHometown() = File("data/towns.txt").readText().split('\n')
         .shuffled().first()
