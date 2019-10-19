@@ -18,6 +18,7 @@ object Game {
     init {
         println("Welcome, adventurer.")
         player.castFireBall()
+        showMap()
     }
 
     fun play() {
@@ -43,14 +44,19 @@ object Game {
         val command = input.split(" ")[0]
         val argument = input.split(" ").getOrElse(1) { "" }
 
+        // converted the single expression function from the book to a standard function
+        // because of some weird warnings by the compiler
         fun processCommand() = when(command.toLowerCase()) {
-            // TODO: add all valid commands
-            "move" -> move(argument)
-            "quit", "exit" -> quit()
-            else -> commandNotFound()
-        }
+                // TODO: add all valid commands
+                "move" -> {
+                    move(argument)
+                    showMap()
+                }
+                "map" -> showMap()
+                "quit", "exit" -> quit()
+                else -> "I'm not quite sure what you're trying to do!"
+            }
 
-        private fun commandNotFound() = "I'm not quite what you're trying to do!"
     }
 
     private fun move(directionInput: String) =
@@ -68,6 +74,17 @@ object Game {
         } catch (e: Exception) {
             "Invalid direction: $directionInput."
         }
+
+    private fun showMap() : String {
+        var map = ""
+        worldMap.forEach { row ->
+            row.forEach { room ->
+                map += if (room == currentRoom) "X " else "O "
+            }
+            map += "\n"
+        }
+        return map
+    }
 
     private fun quit() {
         println("kthxbye!")
