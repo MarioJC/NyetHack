@@ -47,12 +47,14 @@ object Game {
         // converted the single expression function from the book to a standard function
         // because of some weird warnings by the compiler
         fun processCommand() = when(command.toLowerCase()) {
-                // TODO: add all valid commands
+            // TODO: avoid Kotlin.Unit being printed to the console
+            // I'm assuming it has something to do with the implicit cast to Any below...
                 "move" -> {
                     move(argument)
                     showMap()
                 }
                 "map" -> showMap()
+                "ring" -> ringBell()
                 "quit", "exit" -> quit()
                 else -> "I'm not quite sure what you're trying to do!"
             }
@@ -84,6 +86,17 @@ object Game {
             map += "\n"
         }
         return map
+    }
+
+    private fun ringBell() {
+        if (currentRoom is TownSquare) {
+            // making use of "also" instead of "currentRoom.ringBell()" because of possible race condition (p184/p185)
+            currentRoom.also {
+                println((it as TownSquare).ringBell())
+            }
+        } else {
+            println("Can only ring the bell when on Town Square!")
+        }
     }
 
     private fun quit() {
