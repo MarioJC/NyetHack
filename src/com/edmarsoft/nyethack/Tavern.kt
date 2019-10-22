@@ -1,6 +1,7 @@
 package com.edmarsoft.nyethack
 
 import java.io.File
+import com.edmarsoft.nyethack.extensions.random as randomizer
 
 const val TAVERN_NAME = "Taernyl's Folly"
 
@@ -24,8 +25,8 @@ fun main() {
     }
 
     (0..9).forEach {
-        val first = patronList.shuffled().first()
-        val last = lastName.shuffled().first()
+        val first = patronList.randomizer()
+        val last = lastName.randomizer()
         val name = "$first $last"
         uniquePatrons += name
     }
@@ -36,7 +37,7 @@ fun main() {
 
     var orderCount = 0
     while (orderCount <= 9) {
-        placeOrder(uniquePatrons.shuffled().first(), menuList.shuffled().first())
+        placeOrder(uniquePatrons.randomizer(), menuList.randomizer())
         orderCount++
     }
 

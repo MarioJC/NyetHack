@@ -1,6 +1,7 @@
 package com.edmarsoft.nyethack
 
 import java.io.File
+import com.edmarsoft.nyethack.extensions.random as grabbel
 
 class Player (_name: String,
               override var healthPoints: Int = 100,
@@ -29,8 +30,7 @@ class Player (_name: String,
     val hometown by lazy { selectHometown() }
     var currentPosition = Coordinate(0, 0)
 
-    private fun selectHometown() = File("data/towns.txt").readText().split('\n')
-        .shuffled().first()
+    private fun selectHometown() = File("data/towns.txt").readText().split('\n').grabbel()
 
     init {
         require(healthPoints > 0) { "healthPoints must be greater than zero."}
