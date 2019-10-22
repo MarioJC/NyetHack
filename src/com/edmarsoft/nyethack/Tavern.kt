@@ -12,6 +12,8 @@ val menuList = File("data/tavern-menu-data.txt").readText().split('\n')
 val patronGold = mutableMapOf<String, Double>()
 
 fun main() {
+    println("Welcome, dear patrons".frame(5))
+
     if (patronList.contains("Eli")) {
         println("The tavern master says: Eli is in the back playing cards.")
     } else {
@@ -84,3 +86,10 @@ private fun String.toDragonSpeak() =
                 else -> it.value
             }
         }
+
+fun String.frame(padding: Int, formatChar: String = "*"): String {
+    val greeting = "$this!"
+    val middle = formatChar.padEnd(padding).plus(greeting).plus(formatChar.padStart(padding))
+    val end = (middle.indices).joinToString("") { formatChar }
+    return "$end\n$middle\n$end"
+}
