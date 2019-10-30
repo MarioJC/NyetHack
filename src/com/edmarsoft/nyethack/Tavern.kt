@@ -8,7 +8,14 @@ const val TAVERN_NAME = "Taernyl's Folly"
 val patronList = mutableListOf("Eli", "Mordoc", "Sophie")
 val lastName = listOf("Ironfoot", "Fernsworth", "Baggins")
 val menuList = File("data/tavern-menu-data.txt").readText().split('\n')
-val patronGold = mutableMapOf<String, Double>()
+
+val uniquePatrons = generateSequence {
+    val first = patronList.randomizer()
+    val last = lastName.randomizer()
+    "$first $last"
+}.distinct().take(9).toSet()
+
+var patronGold = uniquePatrons.map { name -> Pair(name, 6.0) }.toMap().toMutableMap()
 
 fun main() {
     if (patronList.contains("Eli")) {
@@ -23,17 +30,7 @@ fun main() {
         println("The tavern master says: Nay, they departed hours ago.")
     }
 
-    val uniquePatrons = generateSequence {
-        val first = patronList.randomizer()
-        val last = lastName.randomizer()
-        "$first $last"
-    }.distinct().take(9).toSet()
-
     println("${uniquePatrons.size} unique patrons have entered.")
-
-    uniquePatrons.forEach { name ->
-        patronGold[name] = 6.0
-    }
 
     var orderCount = 0
     while (orderCount <= 9) {
