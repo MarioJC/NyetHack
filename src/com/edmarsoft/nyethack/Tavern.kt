@@ -7,7 +7,6 @@ const val TAVERN_NAME = "Taernyl's Folly"
 
 val patronList = mutableListOf("Eli", "Mordoc", "Sophie")
 val lastName = listOf("Ironfoot", "Fernsworth", "Baggins")
-val uniquePatrons = mutableSetOf<String>()
 val menuList = File("data/tavern-menu-data.txt").readText().split('\n')
 val patronGold = mutableMapOf<String, Double>()
 
@@ -24,12 +23,13 @@ fun main() {
         println("The tavern master says: Nay, they departed hours ago.")
     }
 
-    (0..9).forEach {
+    val uniquePatrons = generateSequence {
         val first = patronList.randomizer()
         val last = lastName.randomizer()
-        val name = "$first $last"
-        uniquePatrons += name
-    }
+        "$first $last"
+    }.distinct().take(9).toSet()
+
+    println("${uniquePatrons.size} unique patrons have entered.")
 
     uniquePatrons.forEach { name ->
         patronGold[name] = 6.0
