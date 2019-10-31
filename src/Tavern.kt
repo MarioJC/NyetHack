@@ -37,10 +37,9 @@ private fun placeOrder(menuData: String) {
     println(phrase)
 }
 
-fun canPerformPurchase(numDragonCoins: Double = 0.0, price: Double): Boolean {
-    var total: Double = numDragonCoins * DRAGON_TO_GOLD_CONVERSION_RATE
-    return total >= price
-}
+fun canPerformPurchase(numDragonCoins: Double = 0.0, price: Double) =
+    numDragonCoins * DRAGON_TO_GOLD_CONVERSION_RATE >= price
+
 
 fun performPurchase(price: Double) {
     displayBalance()
