@@ -29,4 +29,23 @@ public class Jhava {
     public String determineFriendshipLevel() {
         return null;
     }
+
+    public void offerFood() {
+        Hero.handOverFood("pizza");
+    }
+
+    public static void main(String[] args) {
+        // calling Kotlin's top-level function as a static method call
+        System.out.println(Hero.makeProclamation());
+
+        System.out.println("Spells:");
+        Spellbook spellbook = new Spellbook();
+        for (String spell: spellbook.spells) {
+            System.out.println(spell);
+        }
+
+        System.out.println("Max spell count: " + Spellbook.MAX_SPELL_COUNT);
+
+        Spellbook.getSpellbookGreeting();
+    }
 }
