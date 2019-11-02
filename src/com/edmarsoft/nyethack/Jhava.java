@@ -1,7 +1,11 @@
 package com.edmarsoft.nyethack;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
 
 public class Jhava {
 
@@ -34,6 +38,18 @@ public class Jhava {
         Hero.handOverFood("pizza");
     }
 
+    public void extendHandInFriendship() throws Exception {
+        throw new Exception();
+    }
+
+    public void apologize() {
+        try {
+            Hero.acceptApology();
+        } catch (IOException e) {
+            System.out.println("Caught!");
+        }
+    }
+
     public static void main(String[] args) {
         // calling Kotlin's top-level function as a static method call
         System.out.println(Hero.makeProclamation());
@@ -47,5 +63,8 @@ public class Jhava {
         System.out.println("Max spell count: " + Spellbook.MAX_SPELL_COUNT);
 
         Spellbook.getSpellbookGreeting();
+
+        Function1<String, Unit> translator = Hero.getTranslator();
+        translator.invoke("TRUCE");
     }
 }
